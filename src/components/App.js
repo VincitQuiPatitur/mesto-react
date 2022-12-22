@@ -7,15 +7,43 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 
 function App() {
+    const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
+    const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
+    const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
+    const [isDeleteImagePopupOpen, setDeleteImagePopupOpen] = React.useState(false);
+    function handleEditAvatarClick() {
+        setEditAvatarPopupOpen(true);
+    }
+
+    function handleEditProfileClick() {
+        setEditProfilePopupOpen(true);
+    }
+
+    function handleAddPlaceClick() {
+        setAddPlacePopupOpen(true);
+    }
+
+    function handleDeleteImageClick() {
+        setDeleteImagePopupOpen(true);
+    }
+    function closeAllPopups() {
+        setEditProfilePopupOpen(false);
+        setAddPlacePopupOpen(false);
+        setEditAvatarPopupOpen(false);
+        setDeleteImagePopupOpen(false);
+    }
+
     return (
         <div className="page">
             <div className="page__content">
                 <Header/>
-                <Main/>
+                <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
                 <Footer/>
 
                 <PopupWithForm
                     name={'edit-profile'}
+                    isOpen={isEditProfilePopupOpen}
+                    onClose={closeAllPopups}
                     closeButton={'profile'}
                     form={'profile-redaction'}
                     formName={'redaction'}
@@ -43,6 +71,8 @@ function App() {
 
                 <PopupWithForm
                     name={'add-photo'}
+                    isOpen={isAddPlacePopupOpen}
+                    onClose={closeAllPopups}
                     closeButton={'post'}
                     form={'post-creating'}
                     formName={'creating'}
@@ -68,6 +98,8 @@ function App() {
 
                 <PopupWithForm
                     name={'deletion'}
+                    isOpen={isDeleteImagePopupOpen}
+                    onClose={closeAllPopups}
                     container={'popup__small-container'}
                     closeButton={'deletion'}
                     classTitle={'popup__confirmation-title'}
@@ -78,6 +110,8 @@ function App() {
                 </PopupWithForm>
 
                 <PopupWithForm
+                    isOpen={isEditAvatarPopupOpen}
+                    onClose={closeAllPopups}
                     name={'avatar'}
                     container={'popup__avatar-container'}
                     closeButton={'avatar'} /*проверить, сработает ли, если нет, то подставить deletion*/
