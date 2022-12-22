@@ -4,6 +4,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
+import ImagePopup from "./ImagePopup";
 
 function App() {
     return (
@@ -93,18 +94,9 @@ function App() {
                         <span className="popup__input-error avatarLink-error"> </span>
                     </label>
                 </PopupWithForm>
+                <ImagePopup>
 
-                <div className="popup popup_type_image">
-                    <div className="popup__image-container">
-                        <button className="popup__close-button popup__close-button_type_image" type="button"
-                                aria-label="Кнопка закрытия окна"></button>
-                        <figure className="popup__figure-block">
-                            <img src="src/components/App#" alt="#"
-                                 className="popup__image"/>
-                            <figcaption className="popup__caption"></figcaption>
-                        </figure>
-                    </div>
-                </div>
+                </ImagePopup>
                 <template className="post__template">
                     <li className="post">
                         <button className="post__delete" type="button" aria-label="Удаление"></button>
