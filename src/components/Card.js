@@ -9,8 +9,8 @@ function Card({card, myKey, onCardClick}) {
 
     return (
         <li className="post" key={myKey}>
-            <button className="post__delete"  type="button" aria-label="Удаление"></button>
-            <img src={card.link} alt={card.name} className="post__image" onClick = {handleClick}/>
+            <button className="post__delete" type="button" aria-label="Удаление"></button>
+            <img src={card.link} alt={card.name} className="post__image" onClick={handleClick}/>
             <div className="post__description">
                 <h2 className="post__subscription">{card.name}</h2>
                 <div className="post__like-container">

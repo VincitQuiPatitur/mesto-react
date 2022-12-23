@@ -9,7 +9,7 @@ function ImagePopup(props) {
                         aria-label="Кнопка закрытия окна" onClick={props.onClose}></button>
                 <figure className="popup__figure-block">
                     <img src={props.card.link} alt={props.card.name}
-                         className="popup__image" />
+                         className="popup__image"/>
                     <figcaption className="popup__caption">{props.card.name}</figcaption>
                 </figure>
             </div>
