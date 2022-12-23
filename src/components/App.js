@@ -10,7 +10,9 @@ function App() {
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-    const [isDeleteImagePopupOpen, setDeleteImagePopupOpen] = React.useState(false);
+    //const [isDeleteImagePopupOpen, setDeleteImagePopupOpen] = React.useState(false);
+    const [isImagePopupOpen, setImagePopupOpen] =  React.useState(false);
+    const [selectedCard, setSelectedCard] = React.useState({});
     function handleEditAvatarClick() {
         setEditAvatarPopupOpen(true);
     }
@@ -23,28 +25,40 @@ function App() {
         setAddPlacePopupOpen(true);
     }
 
-    function handleDeleteImageClick() {
+    /*function handleDeleteImageClick() {
         setDeleteImagePopupOpen(true);
+    }*/
+
+    function handleCardClick(card) {
+        setSelectedCard(card);
+        setImagePopupOpen(true);
     }
+
     function closeAllPopups() {
         setEditProfilePopupOpen(false);
         setAddPlacePopupOpen(false);
         setEditAvatarPopupOpen(false);
-        setDeleteImagePopupOpen(false);
+        //setDeleteImagePopupOpen(false);
+        setImagePopupOpen(false);
+        setSelectedCard({});
     }
 
     return (
         <div className="page">
             <div className="page__content">
                 <Header/>
-                <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
+                <Main
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
+                />
                 <Footer/>
 
                 <PopupWithForm
                     name={'edit-profile'}
                     isOpen={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
-                    closeButton={'profile'}
                     form={'profile-redaction'}
                     formName={'redaction'}
                     title={'Редактировать профиль'}
@@ -73,7 +87,6 @@ function App() {
                     name={'add-photo'}
                     isOpen={isAddPlacePopupOpen}
                     onClose={closeAllPopups}
-                    closeButton={'post'}
                     form={'post-creating'}
                     formName={'creating'}
                     title={'Новое место'}
@@ -98,10 +111,9 @@ function App() {
 
                 <PopupWithForm
                     name={'deletion'}
-                    isOpen={isDeleteImagePopupOpen}
+                    //isOpen={isDeleteImagePopupOpen}
                     onClose={closeAllPopups}
                     container={'popup__small-container'}
-                    closeButton={'deletion'}
                     classTitle={'popup__confirmation-title'}
                     title={'Вы уверены?'}
                     saveButton={'confirmation-button'}
@@ -114,7 +126,6 @@ function App() {
                     onClose={closeAllPopups}
                     name={'avatar'}
                     container={'popup__avatar-container'}
-                    closeButton={'avatar'} /*проверить, сработает ли, если нет, то подставить deletion*/
                     form={'avatar-redaction'}
                     formName={'avatar'}
                     title={'Обновить аватар'}
@@ -128,22 +139,12 @@ function App() {
                         <span className="popup__input-error avatarLink-error"> </span>
                     </label>
                 </PopupWithForm>
-                <ImagePopup>
 
-                </ImagePopup>
-                <template className="post__template">
-                    <li className="post">
-                        <button className="post__delete" type="button" aria-label="Удаление"></button>
-                        <img src="src/components/App#" alt="#" className="post__image"/>
-                        <div className="post__description">
-                            <h2 className="post__subscription"></h2>
-                            <div className="post__like-container">
-                                <button className="post__like" type="button" aria-label="Лайк"></button>
-                                <p className="post__like-count" name="likeCount"></p>
-                            </div>
-                        </div>
-                    </li>
-                </template>
+                <ImagePopup
+                    card={selectedCard}
+                    isOpen={isImagePopupOpen}
+                    onClose={closeAllPopups}
+                />
             </div>
         </div>
     );
