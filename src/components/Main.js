@@ -1,60 +1,25 @@
 import React from "react";
-import {api} from "../utils/api.js";
-import avatar from "../images/avatar.jpg"
 import Card from "./Card";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function Main(props) {
-    const [userName, setUserName] = React.useState('Арина Кострова');
-    const [userDescription, setUserDescription] = React.useState('Программирую и путешествую');
-    const [userAvatar, setUserAvatar] = React.useState(`${avatar}`);
-    const [cards, setCards] = React.useState([]);
 
-    React.useEffect(() => {
-        api.getUserInfo()
-            .then((result) => {
-                setUserName(result.name);
-                setUserDescription(result.about);
-                setUserAvatar(result.avatar)
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }, []);
-
-    React.useEffect(() => {
-        api.getInitialCards()
-            .then((result) => {
-                setCards(
-                    result.map((card) => {
-                        return {
-                            id: card._id,
-                            likes: card.likes,
-                            link: card.link,
-                            name: card.name
-                        }
-                    })
-                );
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }, []);
-
+    const currentUser = React.useContext(CurrentUserContext);
 
     return (
         <main className="main">
             <section className="profile">
                 <div className="profile__avatar"
                      onClick={props.onEditAvatar}>
-                    <img src={userAvatar} alt="Фото пользователя"
+                    <img src={currentUser.avatar} alt="Фото пользователя"
                          className="profile__avatar-image"/>
                 </div>
                 <div className="profile__info">
-                    <h1 className="profile__user-name">{userName}</h1>
+                    <h1 className="profile__user-name">{currentUser.name}</h1>
                     <button className="profile__edit-button" id='profileEditBtn' type="button"
                             aria-label="Кнопка редактирования профиля"
                             onClick={props.onEditProfile}></button>
-                    <p className="profile__description">{userDescription}</p>
+                    <p className="profile__description">{currentUser.about}</p>
                 </div>
                 <button className="profile__add-button" type="button" aria-label="Добавить пост"
                         onClick={props.onAddPlace}></button>
@@ -62,10 +27,11 @@ function Main(props) {
 
             <section className="posts">
                 <ul className="posts__container">
-                    {cards.map(card => (
+                    {props.cards.map(card => (
                         <Card card={card}
-                              key={card.id}
+                              key={card._id}
                               onCardClick={props.onCardClick}
+                              onCardLike={props.onCardLike}
                         />
                     ))}
                 </ul>
