@@ -4,6 +4,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from "./EditProfilePopup";
 import ImagePopup from "./ImagePopup";
 import {api} from '../utils/api';
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
@@ -21,9 +22,7 @@ function App() {
 
     React.useEffect(() => {
         api.getUserInfo()
-            .then(result => {
-                setCurrentUser(result)
-            })
+            .then(result => setCurrentUser(result))
             .catch(error => console.log(error))
     }, []);
 
@@ -42,9 +41,7 @@ function App() {
                 );
             })*/
             .then(cards => setCards([...cards]))
-            .catch(error => {
-                console.log(error);
-            });
+            .catch(error => console.log(error))
     }, []);
 
     function handleEditAvatarClick() {
@@ -59,26 +56,34 @@ function App() {
         setAddPlacePopupOpen(true);
     }
 
-    /*function handleDeleteImageClick() {
-        setDeleteImagePopupOpen(true);
-    }*/
-
     function handleCardClick(card) {
         setSelectedCard(card);
         setImagePopupOpen(true);
     }
 
     function handleCardLike(card) {
-        console.log(card);
         const isLiked = card.likes.some(i => i._id === currentUser._id);
 
         api.changeLikeCardStatus(card._id, isLiked)
             .then((newCard) => {
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
             })
-            .catch(error => {
-                console.log(error);
-            });
+            .catch(error => console.log(error))
+    }
+
+    function handleCardDelete(card) {
+        api.deleteCard(card)
+            .then(() => {
+                setCards((state) => state.filter((c) => c._id !== card._id))
+            })
+            .catch(error => console.log(error));
+    }
+
+    function handleUpdateUser(userInfo) {
+        api.setUserInfo(userInfo)
+            .then(result => setCurrentUser(result))
+            .catch(error => console.log(error))
+            .finally(() => closeAllPopups());
     }
 
     function closeAllPopups() {
@@ -101,40 +106,15 @@ function App() {
                         onEditAvatar={handleEditAvatarClick}
                         onCardClick={handleCardClick}
                         onCardLike={handleCardLike}
+                        onCardDelete={handleCardDelete}
                         cards={cards}
                     />
                     <Footer/>
 
-                    <PopupWithForm
-                        name={'edit-profile'}
-                        isOpen={isEditProfilePopupOpen}
-                        onClose={closeAllPopups}
-                        form={'profile-redaction'}
-                        formName={'redaction'}
-                        title={'Редактировать профиль'}
-                        saveButton={'save-profile-info'}
-                        buttonText={'Сохранить'}
-                    >
-                        <>
-                            <label className="popup__label">
-                                <input type="text" placeholder="Имя пользователя" required id="userName" name="name"
-                                       className="popup__input popup__input_type_user-name" minLength="2"
-                                       maxLength="40"/>
-                                <span className="popup__input-error userName-error"> </span>
-                            </label>
-                            <label className="popup__label">
-                                <input type="text" placeholder="Краткое описание" required id="description"
-                                       minLength="2"
-                                       name="about"
-                                       maxLength="200"
-                                       className="popup__input popup__input_type_description"/>
-                                <span className="popup__input-error description-error"> </span>
-                            </label>
-                        </>
-                    </PopupWithForm>
+                    <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
                     <PopupWithForm
-                        name={'add-photo'}
+                        popupName={'add-photo'}
                         isOpen={isAddPlacePopupOpen}
                         onClose={closeAllPopups}
                         form={'post-creating'}
@@ -160,7 +140,7 @@ function App() {
                     </PopupWithForm>
 
                     <PopupWithForm
-                        name={'deletion'}
+                        popupName={'deletion'}
                         //isOpen={isDeleteImagePopupOpen}
                         onClose={closeAllPopups}
                         container={'popup__small-container'}
@@ -174,7 +154,7 @@ function App() {
                     <PopupWithForm
                         isOpen={isEditAvatarPopupOpen}
                         onClose={closeAllPopups}
-                        name={'avatar'}
+                        popupName={'avatar'}
                         container={'popup__avatar-container'}
                         form={'avatar-redaction'}
                         formName={'avatar'}
