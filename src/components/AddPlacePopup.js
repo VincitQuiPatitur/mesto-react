@@ -22,6 +22,11 @@ function AddPlacePopup(props) {
         });
     }
 
+    React.useEffect(() => {
+        setPostName('');
+        setImageLink('');
+    }, [props.isOpen])
+
     return (
         <PopupWithForm
             popupName={'add-photo'}
