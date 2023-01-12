@@ -98,14 +98,14 @@ class Api {
             .then(this._getResult);
     }*/
 
-    editAvatar(avatar) {
+    setUserAvatar(avatar) {
         return fetch(
             `${this._url}/users/me/avatar`,
             {
                 method: 'PATCH',
                 headers: this._headers,
                 body: JSON.stringify({
-                    avatar: avatar.link
+                    avatar
                 })
             })
             .then(this._getResult);

@@ -5,6 +5,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
 import {api} from '../utils/api';
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
@@ -86,6 +87,13 @@ function App() {
             .finally(() => closeAllPopups());
     }
 
+    function handleUpdateAvatar(userInfo) {
+        api.setUserAvatar(userInfo.avatar)
+            .then(result => setCurrentUser(result))
+            .catch(error => console.log(error))
+            .finally(() => closeAllPopups());
+    }
+
     function closeAllPopups() {
         setEditProfilePopupOpen(false);
         setAddPlacePopupOpen(false);
@@ -151,24 +159,11 @@ function App() {
                     >
                     </PopupWithForm>
 
-                    <PopupWithForm
+                    <EditAvatarPopup
                         isOpen={isEditAvatarPopupOpen}
                         onClose={closeAllPopups}
-                        popupName={'avatar'}
-                        container={'popup__avatar-container'}
-                        form={'avatar-redaction'}
-                        formName={'avatar'}
-                        title={'Обновить аватар'}
-                        saveButton={'update-avatar'}
-                        buttonText={'Сохранить'}
-                    >
-                        <label className="popup__label">
-                            <input type="url" placeholder="Ссылка на аватар" required id="avatarLink"
-                                   name="link"
-                                   className="popup__input popup__input_type_avatar-link"/>
-                            <span className="popup__input-error avatarLink-error"> </span>
-                        </label>
-                    </PopupWithForm>
+                        onUpdateAvatar={handleUpdateAvatar}
+                    />
 
                     <ImagePopup
                         card={selectedCard}
