@@ -8,8 +8,8 @@ function EditProfilePopup(props) {
     const [description, setDescription] = React.useState('Программирую и путешествую');
 
     React.useEffect(() => {
-       setName(currenUser.name);
-       setDescription(currenUser.about);
+        setName(currenUser.name);
+        setDescription(currenUser.about);
     }, [currenUser, props.isOpen]);
 
     function handleChangeName(e) {

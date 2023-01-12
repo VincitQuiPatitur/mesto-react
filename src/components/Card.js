@@ -28,7 +28,8 @@ function Card({card, myKey, onCardClick, onCardLike, onCardDelete}) {
             <div className="post__description">
                 <h2 className="post__subscription">{card.name}</h2>
                 <div className="post__like-container">
-                    <button className={cardLikeButtonClassName} onClick={handleLikeClick} type="button" aria-label="Лайк"></button>
+                    <button className={cardLikeButtonClassName} onClick={handleLikeClick} type="button"
+                            aria-label="Лайк"></button>
                     <p className="post__like-count" name="likeCount">{card.likes.length}</p>
                 </div>
             </div>

@@ -1,17 +1,9 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
-import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function AddPlacePopup(props) {
-   /* const currenUser = React.useContext(CurrentUserContext);
-    console.log(currenUser);*/
     const [postName, setPostName] = React.useState('');
     const [imageLink, setImageLink] = React.useState('');
-
-    /*React.useEffect(() => {
-        setPostName(currenUser.name);
-        setImageLink(currenUser.link);
-    }, [currenUser, props.isOpen]);*/
 
     function handleAddName(e) {
         setPostName(e.target.value);
@@ -26,7 +18,8 @@ function AddPlacePopup(props) {
 
         props.onAddNewCard({
             name: postName,
-            link: imageLink});
+            link: imageLink
+        });
     }
 
     return (
