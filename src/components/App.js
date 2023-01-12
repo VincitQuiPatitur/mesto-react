@@ -20,7 +20,7 @@ function App() {
     const [selectedCard, setSelectedCard] = React.useState({});
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
-
+    const [isLoaded, setIsLoaded] = React.useState(false);
 
     React.useEffect(() => {
         api.getUserInfo()
@@ -70,30 +70,36 @@ function App() {
     }
 
     function handleUpdateUser(userInfo) {
+        setIsLoaded(true);
         api.setUserInfo(userInfo)
             .then((result) => {
                 setCurrentUser(result);
                 closeAllPopups();
             })
-            .catch(error => console.log(error));
+            .catch(error => console.log(error))
+            .finally(() => setIsLoaded(false));
     }
 
     function handleUpdateAvatar(userInfo) {
+        setIsLoaded(true);
         api.setUserAvatar(userInfo.avatar)
             .then((result) => {
                 setCurrentUser(result);
                 closeAllPopups();
             })
-            .catch(error => console.log(error));
+            .catch(error => console.log(error))
+            .finally(() => setIsLoaded(false));
     }
 
     function handleAddPlaceSubmit(card) {
+        setIsLoaded(true);
         api.addNewCard(card)
             .then((newCard) => {
                 setCards([newCard, ...cards]);
                 closeAllPopups();
             })
-            .catch(error => console.log(error));
+            .catch(error => console.log(error))
+            .finally(() => setIsLoaded(false));
     }
 
     function closeAllPopups() {
@@ -120,19 +126,18 @@ function App() {
                         cards={cards}
                     />
                     <Footer/>
-
                     <EditProfilePopup
                         isOpen={isEditProfilePopupOpen}
                         onClose={closeAllPopups}
                         onUpdateUser={handleUpdateUser}
+                        isLoaded={isLoaded}
                     />
-
                     <AddPlacePopup
                         isOpen={isAddPlacePopupOpen}
                         onClose={closeAllPopups}
                         onAddNewCard={handleAddPlaceSubmit}
+                        isLoaded={isLoaded}
                     />
-
                     <PopupWithForm
                         popupName={'deletion'}
                         //isOpen={isDeleteImagePopupOpen}
@@ -142,15 +147,13 @@ function App() {
                         title={'Вы уверены?'}
                         saveButton={'confirmation-button'}
                         buttonText={'Да'}
-                    >
-                    </PopupWithForm>
-
+                    />
                     <EditAvatarPopup
                         isOpen={isEditAvatarPopupOpen}
                         onClose={closeAllPopups}
                         onUpdateAvatar={handleUpdateAvatar}
+                        isLoaded={isLoaded}
                     />
-
                     <ImagePopup
                         card={selectedCard}
                         isOpen={isImagePopupOpen}

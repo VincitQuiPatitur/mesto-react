@@ -38,7 +38,7 @@ function AddPlacePopup(props) {
             formName={'creating'}
             title={'Новое место'}
             saveButton={'create-new-post'}
-            buttonText={'Создать'}
+            buttonText={!props.isLoaded ? 'Создать' : 'Создание...'}
             onSubmit={handleSubmit}
         >
             <>

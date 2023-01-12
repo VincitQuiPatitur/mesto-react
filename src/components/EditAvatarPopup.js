@@ -21,7 +21,7 @@ function EditAvatarPopup(props) {
             formName={'avatar'}
             title={'Обновить аватар'}
             saveButton={'update-avatar'}
-            buttonText={'Сохранить'}
+            buttonText={!props.isLoaded ? 'Сохранить' : 'Сохранение...'}
             onSubmit={handleSubmit}
         >
             <label className="popup__label">

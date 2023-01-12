@@ -38,7 +38,7 @@ function EditProfilePopup(props) {
             formName={'redaction'}
             title={'Редактировать профиль'}
             saveButton={'save-profile-info'}
-            buttonText={'Сохранить'}
+            buttonText={!props.isLoaded ? 'Сохранить' : 'Сохранение...'}
             onSubmit={handleSubmit}
         >
             <>
