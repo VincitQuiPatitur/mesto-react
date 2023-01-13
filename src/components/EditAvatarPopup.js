@@ -1,8 +1,8 @@
-import React from "react";
+import {useRef, useEffect} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup(props) {
-    const imageLinkRef = React.useRef();
+    const imageLinkRef = useRef();
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -12,7 +12,7 @@ function EditAvatarPopup(props) {
         });
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         imageLinkRef.current.value = '';
     }, [props.isOpen])
 

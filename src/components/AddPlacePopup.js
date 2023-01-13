@@ -1,9 +1,9 @@
-import React from "react";
+import {useState, useEffect} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup(props) {
-    const [postName, setPostName] = React.useState('');
-    const [imageLink, setImageLink] = React.useState('');
+    const [postName, setPostName] = useState('');
+    const [imageLink, setImageLink] = useState('');
 
     function handleAddName(e) {
         setPostName(e.target.value);
@@ -22,7 +22,7 @@ function AddPlacePopup(props) {
         });
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         setPostName('');
         setImageLink('');
     }, [props.isOpen])

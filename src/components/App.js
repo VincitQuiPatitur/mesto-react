@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState, useEffect} from 'react';
 import '../index.css';
 import Header from "./Header";
 import Main from "./Main";
@@ -12,24 +12,22 @@ import AddPlacePopup from "./AddPlacePopup";
 import DeletePlacePopup from "./DeletePlacePopup";
 
 function App() {
-    const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
-    const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
-    const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-    const [isDeleteImagePopupOpen, setDeleteImagePopupOpen] = React.useState(false);
-    const [isImagePopupOpen, setImagePopupOpen] = React.useState(false);
-    const [selectedCard, setSelectedCard] = React.useState({});
-    const [currentUser, setCurrentUser] = React.useState({});
-    const [cards, setCards] = React.useState([]);
-    const [isLoaded, setIsLoaded] = React.useState(false);
-    const [selectedCardForDeletion, setSelectedCardForDeletion] = React.useState({});
+    const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+    const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+    const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+    const [isDeleteImagePopupOpen, setDeleteImagePopupOpen] = useState(false);
+    const [isImagePopupOpen, setImagePopupOpen] = useState(false);
+    const [selectedCard, setSelectedCard] = useState({});
+    const [currentUser, setCurrentUser] = useState({});
+    const [cards, setCards] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [selectedCardForDeletion, setSelectedCardForDeletion] = useState({});
 
-    React.useEffect(() => {
+    useEffect(() => {
         api.getUserInfo()
             .then(result => setCurrentUser(result))
             .catch(error => console.log(error));
-    }, []);
 
-    React.useEffect(() => {
         api.getInitialCards()
             .then(cards => setCards([...cards]))
             .catch(error => console.log(error));

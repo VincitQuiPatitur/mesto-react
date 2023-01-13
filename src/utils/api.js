@@ -78,26 +78,6 @@ class Api {
             .then(this._getResult);
     }
 
-    /*likeCard(card) {
-        return fetch(
-            `${this._url}/cards/${card._id}/likes`,
-            {
-                method: 'PUT',
-                headers: this._headers
-            })
-            .then(this._getResult);
-    }
-
-    dislikeCard(card) {
-        return fetch(
-            `${this._url}/cards/${card._id}/likes`,
-            {
-                method: 'DELETE',
-                headers: this._headers
-            })
-            .then(this._getResult);
-    }*/
-
     setUserAvatar(avatar) {
         return fetch(
             `${this._url}/users/me/avatar`,
